@@ -15,24 +15,40 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import static org.junit.Assert.*;
 
-public class SaucelabsTest {
+public class CloudRemoteTest {
 
     public static WebDriver driver=null;
 
     @BeforeClass
-    public static void setupSauce(){
+    public static void connectToGrid(){
+
+        String theUrl = "";
+
         MutableCapabilities capabilities = new FirefoxOptions();
         capabilities.setCapability("platform", Platform.MAC);
+
         // add username and access key via environment variables
         // or property to avoid releasing with source
-        capabilities.setCapability("username", Props.getEnvOrProperty("saucelabs.username"));
-        capabilities.setCapability("accessKey", Props.getEnvOrProperty("saucelabs.accesskey"));
+
+        // SauceLabs use a username and accesskey added as properties
+        // and a URL
+        // https://wiki.saucelabs.com/display/DOCS/Java+Test+Setup+Example
+        capabilities.setCapability("username", Props.getEnvOrProperty("cloud.username"));
+        capabilities.setCapability("accessKey", Props.getEnvOrProperty("cloud.accesskey"));
+        theUrl = "https://ondemand.saucelabs.com/wd/hub";
+
+
+        // BrowserStack use a username and accesskey
+        // embedded in the remote URL
+        //https://www.browserstack.com/automate/java
+//        theUrl = "https://" +
+//                        Props.getEnvOrProperty("cloud.username") + ":" +
+//                        Props.getEnvOrProperty("cloud.accesskey") +
+//                        "@hub-cloud.browserstack.com/wd/hub";
 
         try {
-            String sauceURL = "https://ondemand.saucelabs.com/wd/hub";
-            driver = new RemoteWebDriver(
-                    new URL(sauceURL),
-                    capabilities);
+
+            driver = new RemoteWebDriver( new URL(theUrl), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
