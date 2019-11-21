@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ByIdOrName;
@@ -25,20 +26,35 @@ public class CloudRemoteTest {
         String theUrl = "";
 
         MutableCapabilities capabilities = new FirefoxOptions();
-        capabilities.setCapability("platform", Platform.MAC);
+        //MutableCapabilities capabilities = new ChromeOptions();
+
+        // e.g.
+        //capabilities.setCapability("platform", Platform.MAC);
+        //capabilities.setCapability("platform", Platform.LINUX);
+        capabilities.setCapability("platform", Platform.WINDOWS);
+
+        // TODO: configure your chosen cloud platform
+        // some example setups are shown for a few vendors
+        // Vendors include, but are not limited to:
+        // https://saucelabs.com - plans: trial, paid and open source
+        // https://browserstack.com - plans: trial, paid and open source
+        // https://www.lambdatest.com/ - plans: trial, paid
+        // https://www.gridlastic.com - plans: free, paid
+        // https://testingbot.com - plans: trial, paid, and open source
+        // https://crossbrowsertesting.com/
 
         // add username and access key via environment variables
         // or property to avoid releasing with source
 
-        // SauceLabs use a username and accesskey added as properties
+        // SauceLabs use a username and accesskey added as properties - trial account available, open source account available
         // and a URL
         // https://wiki.saucelabs.com/display/DOCS/Java+Test+Setup+Example
-        capabilities.setCapability("username", Props.getEnvOrProperty("cloud.username"));
-        capabilities.setCapability("accessKey", Props.getEnvOrProperty("cloud.accesskey"));
-        theUrl = "https://ondemand.saucelabs.com/wd/hub";
+//        capabilities.setCapability("username", Props.getEnvOrProperty("cloud.username"));
+//        capabilities.setCapability("accessKey", Props.getEnvOrProperty("cloud.accesskey"));
+//        theUrl = "https://ondemand.saucelabs.com/wd/hub";
 
 
-        // BrowserStack use a username and accesskey
+        // BrowserStack use a username and accesskey - trial account available, open source account available
         // embedded in the remote URL
         //https://www.browserstack.com/automate/java
 //        theUrl = "https://" +
@@ -46,9 +62,26 @@ public class CloudRemoteTest {
 //                        Props.getEnvOrProperty("cloud.accesskey") +
 //                        "@hub-cloud.browserstack.com/wd/hub";
 
+        // GridLastic.com have a free account available
+        // https://www.gridlastic.com/selenium-grid-demo.html
+        // free account
+        // - start a grid https://www.gridlastic.com/grid-configuration.php
+        // - wait for it to start and page to refresh
+        // - change test code to use the configuration options shown
+        // - ie. use the "API endpoint with hub username and password" url
+        //
+        // - run test
+        //theUrl = "";
+        //capabilities.setCapability("video", "True");
+
         try {
 
             driver = new RemoteWebDriver( new URL(theUrl), capabilities);
+
+            System.out.println(
+                    String.format("Session ID : %s",
+                                    ((RemoteWebDriver)driver).getSessionId()));
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.seleniumsimplified.webdriver</groupId>
-    <artifactId>webdriverbasics</artifactId>
-    <version>3.5.3</version>
+    <artifactId>gridexamplecode</artifactId>
+    <version>3.141.59</version>
     <packaging>jar</packaging>
 
-    <name>webDriverbasics</name>
+    <name>gridexamplecode</name>
     <url>http://seleniumsimplified.com</url>
 
 
