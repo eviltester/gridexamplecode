@@ -31,7 +31,7 @@ public class GridTest {
         MutableCapabilities options = new ChromeOptions();
 
         // set additional capabilities for OS, version etc.
-        //options.setCapability("platformName", "Mac");
+        options.setCapability("platformName", Platform.MAC);
 
         try {
             // add url to environment variables to avoid releasing with source
